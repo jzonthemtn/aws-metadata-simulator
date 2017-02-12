@@ -4,12 +4,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gorilla/mux"
 )
 
 type tomlConfig struct {
+	Port     int
+	Metadata metadata
+}
+
+type metadata struct {
+	Port           int
 	AmiID          string
 	LocalHostname  string
 	ProductCodes   string
@@ -22,25 +29,35 @@ var m map[string]string
 
 func main() {
 
+	configFile := "metadata.toml"
+
+	if len(os.Args) == 2 {
+		configFile = os.Args[1]
+	}
+
+	fmt.Printf("Starting EC2 metadata simluator from config %s\n", configFile)
+
 	var config tomlConfig
-	if _, err := toml.DecodeFile("metadata.toml", &config); err != nil {
+	if _, err := toml.DecodeFile(configFile, &config); err != nil {
 		fmt.Println(err)
 		return
 	}
 
 	m = make(map[string]string)
-	m["ami-id"] = config.AmiID
-	m["local-hostname"] = config.LocalHostname
-	m["reservation-id"] = config.ReservationID
-	m["product-codes"] = config.ProductCodes
-	m["public-hostname"] = config.PublicHostname
-	m["public-ipv4"] = config.PublicIPV4
+	m["ami-id"] = config.Metadata.AmiID
+	m["local-hostname"] = config.Metadata.LocalHostname
+	m["reservation-id"] = config.Metadata.ReservationID
+	m["product-codes"] = config.Metadata.ProductCodes
+	m["public-hostname"] = config.Metadata.PublicHostname
+	m["public-ipv4"] = config.Metadata.PublicIPV4
 
 	router := mux.NewRouter().StrictSlash(true)
 
 	router.HandleFunc("/latest/meta-data/{category}", handle).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	host := fmt.Sprintf(":%d", config.Port)
+	fmt.Printf("Listening on: %s\n", host)
+	log.Fatal(http.ListenAndServe(host, router))
 
 }
 

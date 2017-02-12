@@ -10,6 +10,10 @@ If specific values for the instance metadata are desired set those values in `me
 
 `go run main.go`
 
+To use a different file as the configuration give the filename as a command line argument:
+
+`go run main.go other.toml`
+
 To redirect traffic:
 
 `iptables -t nat -A PREROUTING -d 169.254.169.254 -p tcp --dport 80 --syn -j REDIRECT --to-port 8080`

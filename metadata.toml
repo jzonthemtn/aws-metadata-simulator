@@ -1,3 +1,6 @@
+port = 8080
+
+[metadata]
 amiId = "ami-123456789"
 localHostname = "ip-10-251-50-12.ec2.internal"
 productCodes = "asdf\n1234"
