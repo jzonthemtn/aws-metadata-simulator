@@ -16,7 +16,7 @@ To use a different file as the configuration give the filename as a command line
 
 To redirect traffic:
 
-`iptables -t nat -A PREROUTING -d 169.254.169.254 -p tcp --dport 80 --syn -j REDIRECT --to-port 8080`
+`iptables -t nat -A OUTPUT -p tcp -d 169.254.169.254 --dport 80 -j DNAT --to-destination 127.0.0.1:8080`
 
 To use:
 
