@@ -6,6 +6,8 @@ This project provides an incomplete capability of simulating AWS EC2 [instance m
 
 To run:
 
+If specific values for the instance metadata are desired set those values in `metadata.toml` then run it:
+
 `go run main.go`
 
 To redirect traffic:

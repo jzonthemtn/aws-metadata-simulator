@@ -5,20 +5,36 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/BurntSushi/toml"
 	"github.com/gorilla/mux"
 )
 
-var m map[string]string 
+type tomlConfig struct {
+	AmiID          string
+	LocalHostname  string
+	ProductCodes   string
+	ReservationID  string
+	PublicHostname string
+	PublicIPV4     string
+}
+
+var m map[string]string
 
 func main() {
 
+	var config tomlConfig
+	if _, err := toml.DecodeFile("metadata.toml", &config); err != nil {
+		fmt.Println(err)
+		return
+	}
+
 	m = make(map[string]string)
-	m["ami-id"] = "ami-123456789"
-	m["local-hostname"] = "ip-10-251-50-12.ec2.internal"
-	m["reservation-id"] = "r-fea54097"
-	m["product-codes"] = "asdf\n1234"
-	m["public-hostname"] = "ec2-203-0-113-25.compute-1.amazonaws.com"
-	m["public-ipv4"] = "10.251.50.12"
+	m["ami-id"] = config.AmiID
+	m["local-hostname"] = config.LocalHostname
+	m["reservation-id"] = config.ReservationID
+	m["product-codes"] = config.ProductCodes
+	m["public-hostname"] = config.PublicHostname
+	m["public-ipv4"] = config.PublicIPV4
 
 	router := mux.NewRouter().StrictSlash(true)
 
