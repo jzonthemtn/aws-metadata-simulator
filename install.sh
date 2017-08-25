@@ -2,7 +2,7 @@
 
 # This script gets the AWS Instance Metadata Simulator.
 
-sudo yum install -y git golang
+sudo yum -y install git golang
 mkdir ~/go
 export GOPATH=~/go
 go get -u github.com/mtnfog/aws-metadata-emulator
