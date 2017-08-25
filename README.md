@@ -4,7 +4,10 @@ This project provides an incomplete capability of simulating AWS EC2 [instance m
 
 ## Quick Install
 
-`wget https://raw.githubusercontent.com/mtnfog/aws-metadata-simulator/master/install.sh && chmod +x install.sh && ./install.sh`
+```
+wget https://raw.githubusercontent.com/mtnfog/aws-metadata-simulator/master/install.sh && chmod +x install.sh && ./install.sh
+sudo iptables -t nat -A OUTPUT -p tcp -d 169.254.169.254 --dport 80 -j DNAT --to-destination 127.0.0.1:8080
+```
 
 ## Manual Install Steps
 
