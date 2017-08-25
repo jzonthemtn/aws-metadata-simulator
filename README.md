@@ -28,3 +28,10 @@ To use:
 
 `curl -X GET http://127.0.0.1:8080/latest/meta-data/ami-id`
 
+## Using
+
+Now when applications make requests to the EC2 instance metadata the simulator will answer. You can test it:
+
+`curl http://169.254.169.254/latest/meta-data/hostname`
+
+To revert back to EC2's instance metadata service you must remove the `iptables` rule.
