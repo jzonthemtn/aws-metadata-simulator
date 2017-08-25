@@ -8,7 +8,7 @@ This project provides an incomplete capability of simulating AWS EC2 [instance m
 
 ## Manual Install Steps
 
-`go get -u github.com/mtnfog/aws-metadata-emulator`
+`go get -u github.com/mtnfog/aws-metadata-simulator`
 
 To run:
 
